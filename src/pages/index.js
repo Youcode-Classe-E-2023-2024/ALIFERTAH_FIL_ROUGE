@@ -112,6 +112,17 @@ export default function Home() {
           <Primary text="Publier un trajet"/>
         </article>
       </section>
+
+      <section 
+        className="py-8 px-40  text-left bg-cover space-y-8"
+        style={{backgroundImage: `url('/imgs/sloganImage.png')`}}
+      >
+        <h1 className="text-3xl font-semibold text-left pt-8">Trouver votre prochaine destination</h1>
+        <p className="font-thin text-[#346751]">
+          Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when
+          </p>
+        <Primary text="Discover" />
+      </section>
     </main>
   );
 }
