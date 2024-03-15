@@ -104,11 +104,6 @@ function Footer() {
                 </div>
             </div>
         </div>
-        <div class="bg-gray-300">
-            <div class="container px-5 py-4 mx-auto">
-                <p class="text-sm text-gray-700 capitalize xl:text-center">© 2020 All rights reserved </p>
-            </div>
-        </div>
     </footer>
     </div>
   )
