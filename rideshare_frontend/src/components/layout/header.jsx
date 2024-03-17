@@ -1,4 +1,5 @@
 import Image from 'next/image'
+
 import React, { useState } from 'react'
 
 function Header() {
@@ -28,7 +29,7 @@ function Header() {
               <a href="#" className='block px-4 py-2 text-gray-800 hover:bg-gray-200'>Profile</a>
               <a href="#" className='block px-4 py-2 text-gray-800 hover:bg-gray-200'>Settings</a>
               <a href="#" className='block px-4 py-2 text-gray-800 hover:bg-gray-200'>Logout</a>
-              <a href="/login" className='block px-4 py-2 text-gray-800 hover:bg-gray-200'>Login</a>
+              <a href="/register" className='block px-4 py-2 text-gray-800 hover:bg-gray-200'>Register</a>
             </div>
           </div>
         )}

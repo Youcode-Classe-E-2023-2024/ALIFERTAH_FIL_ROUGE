@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Primary from '@/components/buttons/primary';
 import axios from 'axios'
+import 'react-toastify/dist/ReactToastify.css';
+import { toast, ToastContainer } from 'react-toastify';
 
 function Login() {
   const inputs = ["username", "email", "phone","password","confirmPassword", "birthday"];
@@ -25,17 +27,41 @@ function Login() {
         });
     
         if (response.status === 200) {
-          console.log('Registration successful');
+          toast.success('Registration successful', {
+            position: 'top-right',
+            autoClose: 3000, 
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+          });
           setUsername("");
           setEmail("");
           setPhone("");
           setPassword("");
           setBirthday("");
         } else {
-          console.error('Registration failed:', response.statusText);
-        }
+        toast.error('Registration failed: ' + response.statusText, {
+        position: 'top-right',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        });
+      }
       } catch (error) {
-        console.error('Error registering user:', error);
+        toast.error('Error registering user: ' + error.message, {
+          position: 'top-right',
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       }
     };
 
@@ -104,6 +130,7 @@ function Login() {
             </a>
           </div>
         </form>
+        <ToastContainer />
         <Image src="/imgs/login.png" className='ml-[-900px]' height={500} width={400} />
       </div>
     </main>
