@@ -1,40 +1,29 @@
-import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-import axios from 'axios'
+import React from 'react'
 import 'react-toastify/dist/ReactToastify.css';
+import axios from 'axios'
 import { toast, ToastContainer } from 'react-toastify';
-import { useRouter } from 'next/router';
 
 function Login() {
-  const inputs = ["username", "email", "phone","password","confirmPassword", "birthday"];
-  const [username, setUsername] = useState("");  
-  const [email, setEmail] = useState("");  
-  const [phone, setPhone] = useState("");  
-  const [password, setPassword] = useState("");  
-  const [birthday, setBirthday] = useState("");
+  const inputs = ["email", "password"];
   const formData = {
-      username, email, phone, password, birthday
-    };
-    const router = useRouter();
-    /**
-     * handle form submit to send register 
-     * @param {*} e 
-     */
-    const handleSubmit = async (e) => {
-      e.preventDefault();
-      
-      try {
-        const response = await axios.post('http://127.0.0.1:8000/register', formData, {
+    email: "test1@test1.test1", password: "test1@test1.test1"
+  }
+  /**
+   * 
+   * @param {*} e 
+   */
+  const handleSubmit = async (e) =>{
+    e.preventDefault()
+    try {
+        const response = await axios.post('http://127.0.0.1:8000/login', formData, {
           headers: {
             'Content-Type': 'application/json',
           },
         });
   
         if (response.status === 200) {
-          setTimeout(() => {
-            router.replace('/login');
-          }, 2000);
-          toast.success('Registration successful', {
+          toast.success('Login successful', {
             position: 'top-right',
             autoClose: 3000, 
             hideProgressBar: false,
@@ -43,11 +32,6 @@ function Login() {
             draggable: true,
             progress: undefined,
           });
-          setUsername("");
-          setEmail("");
-          setPhone("");
-          setPassword("");
-          setBirthday("");
         } else {
         toast.error('Registration failed: ' + response.statusText, {
         position: 'top-right',
@@ -60,6 +44,7 @@ function Login() {
         });
       }
       } catch (error) {
+        console.log(error.message)
         toast.error('Error registering user: ' + error.message, {
           position: 'top-right',
           autoClose: 3000,
@@ -70,34 +55,10 @@ function Login() {
           progress: undefined,
         });
       }
-    };
-
-
-    const handleInputChange = (e) => {
-      const { name, value } = e.target;
-      switch (name) {
-        case "username":
-          setUsername(value);
-          break;
-        case "email":
-          setEmail(value);
-          break;
-        case "phone":
-          setPhone(value);
-          break;
-        case "password":
-          setPassword(value);
-          break;
-        case "birthday":
-          setBirthday(value);
-          break;
-        default:
-          break;
-      }
-    };
+  }
 
   return (
-    <main className='bg-gradient-to-r from-black to-gray-800 h-screen'>
+    <main className='bg-gradient-to-r from-black to-gray-800 h-screen flex items-center justify-center'>
       <div className='flex justify-center items-center '>
         <form className="mt-10 bg-white py-8 pl-40 m-4 pr-20 rounded shadow-inner shadow-md shadow-slate-900" onSubmit={handleSubmit}>
           {inputs.map((value, key) => {
@@ -107,18 +68,16 @@ function Login() {
                 <input  id={value} 
                 type={value === "password" ? ("password") : (value === "birthday" ? ("date") : "text")} 
                 name={value} placeholder={value}
-                value={formData[value]}
                   className="block w-full py-3 px-1 mt-2 
                             text-gray-800 appearance-none 
                             border-b-2 border-gray-100
                             focus:text-gray-500 focus:outline-none focus:border-gray-200"
-                  onChange={handleInputChange}
                   required />
               </div>
             );
           })}
           <button type='submit'
-            className='bg-[#346751] shadow-md shadow-gray-700 font-semibold text-white py-2 px-12 rounded hover:bg-[#346121] duration-500'
+            className='bg-[#346751] shadow-md shadow-gray-700 font-semibold text-white py-2 px-12 rounded hover:bg-[#346121] duration-500 mt-4'
           >
             Register
           </button>
@@ -137,11 +96,11 @@ function Login() {
             </a>
           </div>
         </form>
-        <ToastContainer />
-        <Image src="/imgs/login.png" className='ml-[-900px]' height={500} width={400} />
+        <ToastContainer /> 
+        <Image src="/imgs/login.png" className='ml-[-700px]' height={400} width={400} />
       </div>
     </main>
-  );
+  )
 }
 
-export default Login;
+export default Login
