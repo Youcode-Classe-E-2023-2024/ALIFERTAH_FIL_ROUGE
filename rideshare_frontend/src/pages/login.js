@@ -1,13 +1,15 @@
 import Image from 'next/image';
-import React from 'react'
+import React, { useState } from 'react'
 import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios'
 import { toast, ToastContainer } from 'react-toastify';
 
 function Login() {
+  const [email, setEmail] = useState("")
+  const [password, setPassword] = useState("")
   const inputs = ["email", "password"];
   const formData = {
-    email: "test1@test1.test1", password: "test1@test1.test1"
+    email, password
   }
   /**
    * 
@@ -23,6 +25,8 @@ function Login() {
         });
   
         if (response.status === 200) {
+          document.cookie = `token=${response.data.data.token}`
+          console.log(document.cookie)
           toast.success('Login successful', {
             position: 'top-right',
             autoClose: 3000, 
@@ -57,6 +61,20 @@ function Login() {
       }
   }
 
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    switch (name) {
+      case "email":
+        setEmail(value);
+        break;
+      case "password":
+        setPassword(value);
+        break;
+      default:
+        break;
+    }
+  };
+
   return (
     <main className='bg-gradient-to-r from-black to-gray-800 h-screen flex items-center justify-center'>
       <div className='flex justify-center items-center '>
@@ -65,7 +83,9 @@ function Login() {
             return (
               <div key={key}>
                 <label htmlFor={value} className="block text-xs font-semibold text-gray-600 uppercase mt-2">{value}</label>
-                <input  id={value} 
+                <input  id={value}
+                value={formData[value]}
+                onChange={handleInputChange} 
                 type={value === "password" ? ("password") : (value === "birthday" ? ("date") : "text")} 
                 name={value} placeholder={value}
                   className="block w-full py-3 px-1 mt-2 
