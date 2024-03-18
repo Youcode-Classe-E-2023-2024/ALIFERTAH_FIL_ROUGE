@@ -10,6 +10,11 @@ function Header() {
     setIsDropDown(!isDropDown);
   }
 
+  const logout = () => {
+    const tokenName = document.cookie.split("=");
+    console.log(tokenName)
+    document.cookie = "token" + '=; expires=Thu, 01-Jan-1970 00:00:01 GMT;' + tokenName[1] + ';';
+  }
   return (
     <div className='bg-[#161616] text-[#F8F8F8] h-16 flex w-full justify-around items-center'>
         <Image src="/imgs/logo.png" width={60} height={100} />
@@ -28,7 +33,7 @@ function Header() {
             <div className='py-1'>
               <a href="#" className='block px-4 py-2 text-gray-800 hover:bg-gray-200'>Profile</a>
               <a href="#" className='block px-4 py-2 text-gray-800 hover:bg-gray-200'>Settings</a>
-              <a href="#" className='block px-4 py-2 text-gray-800 hover:bg-gray-200'>Logout</a>
+              <a onClick={logout} className='block px-4 py-2 text-gray-800 hover:bg-gray-200'>Logout</a>
               <a href="/register" className='block px-4 py-2 text-gray-800 hover:bg-gray-200'>Register</a>
             </div>
           </div>
