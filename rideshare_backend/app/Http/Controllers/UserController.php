@@ -55,7 +55,6 @@ class UserController extends Controller
     public function logout(Request $request)
     {
         $user = $request->user();
-
         if ($user) {
             $accessToken = $user->currentAccessToken();
     

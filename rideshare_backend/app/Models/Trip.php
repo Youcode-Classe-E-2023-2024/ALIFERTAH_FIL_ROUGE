@@ -13,6 +13,8 @@ class Trip extends Model
         'arrival',
         'car',
         'price',
+        'owner',
         'date',
+        'places',
     ];
 }

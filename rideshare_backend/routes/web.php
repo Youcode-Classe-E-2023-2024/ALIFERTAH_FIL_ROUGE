@@ -27,6 +27,8 @@ Route::post('/logout', [UserController::class, "logout"])
     ->name("logout")
     ->middleware('auth:sanctum');
 
+    Route::post('/newTrip', [TripController::class, "newTrip"])
+    ->name("newTrip")
+    ->middleware('auth:sanctum');
 
 
-Route::post('/newTrip', [TripController::class , "newTrip"])->name("newTrip");

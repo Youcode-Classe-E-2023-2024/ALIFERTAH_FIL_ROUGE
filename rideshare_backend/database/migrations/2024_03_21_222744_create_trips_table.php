@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('arrival');
             $table->string('car');
             $table->float('price');
+            $table->float('places');
+            $table->string('owner');
             $table->date('date');
             $table->timestamps();
         });

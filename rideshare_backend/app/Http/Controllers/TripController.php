@@ -17,6 +17,7 @@ class TripController extends Controller
             'arrival' => 'required|string',
             'car' => 'required|string',
             'price' => 'required|numeric',
+            'places' => 'required|numeric',
             'date' => 'required|date',
         ]);
     
@@ -25,7 +26,19 @@ class TripController extends Controller
             return response()->json(['error' => 'A trip already exists with the same date'], 400);
         }
     
-        $trip = Trip::create($validatedData);
+        $user = $request->user();
+        
+        $trip = new Trip([
+            'departure' => $validatedData['departure'],
+            'arrival' => $validatedData['arrival'],
+            'car' => $validatedData['car'],
+            'price' => $validatedData['price'],
+            'places' => $validatedData['places'],
+            'date' => $validatedData['date'],
+            'owner' => "sss", 
+        ]);
+    
+        $trip->save();
     
         return response()->json(['success' => 'Trip created successfully', 'trip' => $trip], 200);
     }

@@ -1,7 +1,7 @@
 import Primary from '@/components/buttons/primary';
 import axios from 'axios';
 import Image from 'next/image'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 const inputs = [
   {
@@ -31,6 +31,15 @@ const inputs = [
 ]
 
 function NewTrip() {
+
+  useEffect(() => {
+    const authToken = () => {
+      const tokenCookie = document.cookie.split('; ').find(row => row.startsWith('token='));
+      return tokenCookie ? tokenCookie.split('=')[1] : null;
+    };
+
+    axios.defaults.headers.common['Authorization'] = authToken() ? `Bearer ${authToken()}` : '';
+  }, []);
 
   const handleSubmit = () => {
     axios.post('http://127.0.0.1:8000/newTrip', formData)
