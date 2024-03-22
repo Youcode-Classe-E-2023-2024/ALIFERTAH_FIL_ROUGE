@@ -1,6 +1,7 @@
+import axios from 'axios';
 import Image from 'next/image'
 
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 function Header() {
 
@@ -9,8 +10,24 @@ function Header() {
   const handleDropDownToggle = () =>{
     setIsDropDown(!isDropDown);
   }
+  
+  useEffect(() => {
+    const authToken = () => {
+      const tokenCookie = document.cookie.split('; ').find(row => row.startsWith('token='));
+      return tokenCookie ? tokenCookie.split('=')[1] : null;
+    };
 
+    axios.defaults.headers.common['Authorization'] = authToken() ? `Bearer ${authToken()}` : '';
+  }, []);
+  
   const logout = () => {
+    axios.post("http://127.0.0.1:8000/logout")
+    .then(response => {
+      console.log(response.data)
+    })
+    .catch(error => {
+      console.error("Error :: ", error)
+    })
     const tokenName = document.cookie.split("=");
     console.log(tokenName)
     document.cookie = "token" + '=; expires=Thu, 01-Jan-1970 00:00:01 GMT;' + tokenName[1] + ';';

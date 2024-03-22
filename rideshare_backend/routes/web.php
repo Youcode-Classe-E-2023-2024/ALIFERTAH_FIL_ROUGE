@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TripController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,4 +21,12 @@ Route::get('/', function () {
 
 Route::post('/register', [UserController::class , "register"])->name("register");
 Route::post('/login', [UserController::class , "login"])->name("login"); 
-Route::post('/logout', [UserController::class , "logout"])->name("logout"); 
+// Route::post('/logout', [UserController::class , "logout"])->name("logout");
+
+Route::post('/logout', [UserController::class, "logout"])
+    ->name("logout")
+    ->middleware('auth:sanctum');
+
+
+
+Route::post('/newTrip', [TripController::class , "newTrip"])->name("newTrip");
