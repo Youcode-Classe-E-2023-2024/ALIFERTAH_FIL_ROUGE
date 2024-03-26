@@ -2,6 +2,10 @@ import Primary from '@/components/buttons/primary';
 import axios from 'axios';
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
+import 'react-toastify/dist/ReactToastify.css';
+import { toast, ToastContainer } from 'react-toastify';
+import ErrorAlert from '@/components/alerts/toast';
+
 
 const inputs = [
   {
@@ -42,13 +46,29 @@ function NewTrip() {
   }, []);
 
   const handleSubmit = () => {
-    axios.post('http://127.0.0.1:8000/newTrip', formData)
-    .then(response => {
-      console.log(response.data)
-    })
-    .catch(error => {
-      console.error('Error :: ', error)
-    })
+      axios.post('http://127.0.0.1:8000/newTrip', formData)
+      .then(response => {
+        toast.success(response.success, {
+          position: 'top-right',
+          autoClose: 3000, 
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      })
+      .catch(error => {
+        toast.error('New trip failed', {
+          position: 'top-right',
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          });
+      })
   };
 
     const steps = [];
@@ -98,6 +118,8 @@ function NewTrip() {
         <div onClick={handleClick}>
           <Primary text="Submit"/>
         </div>
+        <ToastContainer />
+
     </div>
   )
 }
