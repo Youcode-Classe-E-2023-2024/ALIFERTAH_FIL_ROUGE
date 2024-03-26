@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class TripController extends Controller
 {
     /**
-     * Creates a new trip.
+     * Creates a new trip
      */
     public function newTrip(Request $request)
     {
@@ -44,11 +44,17 @@ class TripController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Retrieves all available trips and returns the data in the response
      */
-    public function create()
+    public function allTrips()
     {
-        //
+        $trips = Trip::all();
+        
+        if ($trips->isEmpty()) {
+            return response()->json(['message' => 'No trips found'], 404);
+        }
+        
+        return response()->json(['trips' => $trips], 200);
     }
 
     /**
