@@ -26,7 +26,8 @@ function Login() {
   
         if (response.status === 200) {
           document.cookie = `token=${response.data.data.token}`
-          console.log(document.cookie)
+          document.cookie = `role=${response.data.data.user.role}`
+          document.cookie = `username=${response.data.data.user.username}`
           toast.success('Login successful', {
             position: 'top-right',
             autoClose: 3000, 

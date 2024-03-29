@@ -21,16 +21,17 @@ function Header() {
   
   const logout = () => {
     axios.post("http://127.0.0.1:8000/logout")
-    .then(response => {
-      console.log(response.data)
-    })
-    .catch(error => {
-      console.error("Error :: ", error)
-    })
-    const tokenName = document.cookie.split("=");
-    console.log(tokenName)
-    document.cookie = "token" + '=; expires=Thu, 01-Jan-1970 00:00:01 GMT;' + tokenName[1] + ';';
-  }
+      .then(response => {
+        console.log(response.data);
+        document.cookie.split(";").forEach(cookie => {
+          const cookieName = cookie.split("=")[0].trim();
+          document.cookie = `${cookieName}=; expires=Thu, 01 Jan 1970 00:00:00 UTC;`;
+        });
+      })
+      .catch(error => {
+        console.error("Error :: ", error);
+      });
+  };
   return (
     <div className='bg-[#161616] text-[#F8F8F8] h-16 flex w-full justify-around items-center'>
         <Image src="/imgs/logo.png" width={60} height={100} />
