@@ -4,13 +4,12 @@ import React, { useEffect, useState } from 'react'
 
 function AvailableTrips() {
     const [trips, setTrips] = useState([]);
-
     useEffect(() => {
         const authToken = () => {
             const tokenCookie = document.cookie.split('; ').find(row => row.startsWith('token='));
             return tokenCookie ? tokenCookie.split('=')[1] : null;
         };
-
+        
         axios.defaults.headers.common['Authorization'] = authToken() ? `Bearer ${authToken()}` : '';
     }, []);
 

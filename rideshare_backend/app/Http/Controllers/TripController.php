@@ -16,6 +16,7 @@ class TripController extends Controller
             'departure' => 'required|string',
             'arrival' => 'required|string',
             'car' => 'required|string',
+            'owner' => 'required|string',
             'price' => 'required|numeric',
             'places' => 'required|numeric',
             'date' => 'required|date',
@@ -35,7 +36,7 @@ class TripController extends Controller
             'price' => $validatedData['price'],
             'places' => $validatedData['places'],
             'date' => $validatedData['date'],
-            'owner' => "sss", 
+            'owner' => $validatedData['date'], 
         ]);
     
         $trip->save();
