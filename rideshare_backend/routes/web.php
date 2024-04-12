@@ -35,4 +35,7 @@ Route::get('/allTrips', [TripController::class, "allTrips"])
 ->name("allTrips")
 ->middleware('auth:sanctum');
 
+Route::get('/trip/{id}', [TripController::class, "trip"])
+->name("trip");
+
 

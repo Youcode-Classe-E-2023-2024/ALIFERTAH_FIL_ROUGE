@@ -61,9 +61,15 @@ class TripController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function trip(Request $request, $id)
     {
-        //
+        $trip = Trip::find($id);
+
+        if (!$trip) {
+            return response()->json(['error' => 'Trip not found'], 404);
+        }
+
+        return response()->json($trip);   
     }
 
     /**
