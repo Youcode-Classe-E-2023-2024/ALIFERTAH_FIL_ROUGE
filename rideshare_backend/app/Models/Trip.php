@@ -17,4 +17,9 @@ class Trip extends Model
         'date',
         'places',
     ];
+
+    public function reservations()
+    {
+        return $this->hasMany(Booking::class);
+    }
 }
