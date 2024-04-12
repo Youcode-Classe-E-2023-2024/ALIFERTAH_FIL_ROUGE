@@ -26,7 +26,7 @@ function AvailableTrips() {
     return (
         <main className='flex'>
             {!trips.length ? (
-                <div>No available trips</div>
+                <div>Loading ...</div>
             ) : (
                 trips.map((val, key) => (
                     <div className='max-w-md mx-auto overflow-hidden shadow-lg hover:shadow-xl duration-500 my-12' key={key}>
@@ -53,6 +53,7 @@ function AvailableTrips() {
                             <div className='flex space-x-20 border-t'>
                                 <span>{val.owner}</span>
                                 <span className='text-[#346751]'>{val.places}</span>
+                                <a href={`/posts/${val.id}`} className='text-[#346751]'>GO</a>
                             </div>
                         </div>
                     </div>
