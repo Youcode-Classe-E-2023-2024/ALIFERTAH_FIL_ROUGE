@@ -1,3 +1,4 @@
+import Primary from '@/components/buttons/primary';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
@@ -29,7 +30,14 @@ export function Post () {
   // if (!post) {
   //   return <div>Loading...</div>;
   // }
-
+  const authTokenn = () => {
+    const tokenCookie = document.cookie.split('; ').find(row => row.startsWith('token='));
+    return tokenCookie ? tokenCookie.split('=')[1] : null;
+  };
+const handleBook = () =>{
+  axios.defaults.headers.common['Authorization'] = authTokenn() ? `Bearer ${authTokenn()}` : '';
+  axios.post(`http://127.0.0.1:8000/book/${id}`);
+}
   return (
     <>
       {post ? (<div>
@@ -64,7 +72,9 @@ export function Post () {
     </div>
     <div class="flex flex-col items-center">
       <div class="text-xl font-bold">Contacter Julie</div>
-      <div>Réserver</div>
+      <div onClick={handleBook}>
+        <Primary  text="BOOK!"/>
+      </div>
     </div>
   </div>
 </div>

@@ -18,8 +18,8 @@ class Trip extends Model
         'places',
     ];
 
-    public function reservations()
+    public function users()
     {
-        return $this->hasMany(Booking::class);
+        return $this->belongsToMany(User::class, 'bookings')->withPivot('status');
     }
 }

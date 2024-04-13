@@ -38,4 +38,8 @@ Route::get('/allTrips', [TripController::class, "allTrips"])
 Route::get('/trip/{id}', [TripController::class, "trip"])
 ->name("trip");
 
+Route::post('/book/{id}', [TripController::class, "bookTrip"])
+->name("bookTrip")
+->middleware('auth:sanctum');
+
 

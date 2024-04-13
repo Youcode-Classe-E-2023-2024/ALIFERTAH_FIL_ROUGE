@@ -36,7 +36,7 @@ class TripController extends Controller
             'price' => $validatedData['price'],
             'places' => $validatedData['places'],
             'date' => $validatedData['date'],
-            'owner' => $validatedData['date'], 
+            'owner' => $user->username, 
         ]);
     
         $trip->save();
@@ -75,32 +75,11 @@ class TripController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Trip $trip)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Trip $trip)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Trip $trip)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Trip $trip)
-    {
-        //
+    public function bookTrip(Request $r, $id){
+        
+        $user = $r->user();
+        $trip = Trip::find($id);
+        $user->reservations()->attach($trip->id, ["status" => "pending"]);
+        return response()->json(['success' => $user], 200);
     }
 }

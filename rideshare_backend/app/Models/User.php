@@ -47,6 +47,6 @@ class User extends Authenticatable
 
     public function reservations()
     {
-        return $this->hasMany(Booking::class);
+        return $this->belongsToMany(Trip::class, 'bookings')->withPivot('status');
     }
 }
