@@ -1,8 +1,8 @@
 import Image from 'next/image';
 import React, { useState } from 'react'
 import 'react-toastify/dist/ReactToastify.css';
-import axios from 'axios'
 import { toast, ToastContainer } from 'react-toastify';
+import axios from 'axios'
 
 function Login() {
   const [email, setEmail] = useState("")
