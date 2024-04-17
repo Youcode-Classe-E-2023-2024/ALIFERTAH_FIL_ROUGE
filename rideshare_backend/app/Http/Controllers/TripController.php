@@ -80,6 +80,6 @@ class TripController extends Controller
         $user = $r->user();
         $trip = Trip::find($id);
         $user->reservations()->attach($trip->id, ["status" => "pending"]);
-        return response()->json(['success' => $user], 200);
+        return response()->json(['success' => "WE WILL NOTIFY THE ORGANISER"], 200);
     }
 }

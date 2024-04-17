@@ -45,6 +45,7 @@ function Header() {
           cookies ? (
           <nav className='flex items-center'>
               <a href='/newTrip' className='flex items-center rounded px-4 py-2 ml-4 cursor-pointer'><Image className='mr-4 cursor-pointer' src="/icons/New.svg" height={20} width={20} /><span>New</span></a>
+              <a href='/availableTrips' className='flex items-center rounded px-4 py-2 ml-4 cursor-pointer'><span>Availabale trips</span></a>
               <div className='flex items-center  rounded px-4 py-2 ml-4 cursor-pointer'><Image className='mr-4 cursor-pointer' src="/icons/search.svg" height={20} width={20} /><span>Search</span></div>
             <div className='relative'>
               <div className='flex items-center bg-[#2D2D2D] rounded px-8 py-2 ml-4 cursor-pointer'><span>John Doe</span>
