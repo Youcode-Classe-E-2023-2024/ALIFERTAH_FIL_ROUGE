@@ -75,7 +75,7 @@ function AvailableTrips() {
                 </div>
             ))
     )}
-</main>
+    </main>
 
     )
 }

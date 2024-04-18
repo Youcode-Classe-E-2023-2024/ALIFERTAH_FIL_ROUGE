@@ -1,5 +1,6 @@
 import axios from 'axios';
 import Image from 'next/image'
+import Link from 'next/link';
 import React, { useEffect, useState } from 'react'
 
 function Header() {
@@ -56,10 +57,10 @@ function Header() {
               {isDropDown && (
                 <div className='absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10'>
               <div className='py-1'>
-                <a href="#" className='block px-4 py-2 text-gray-800 hover:bg-gray-200'>Profile</a>
+                <Link href="/dashboard" className='block px-4 py-2 text-gray-800 hover:bg-gray-200'>Dashboard</Link>
                 <a href="#" className='block px-4 py-2 text-gray-800 hover:bg-gray-200'>Settings</a>
-                <a onClick={logout} className='block px-4 py-2 text-gray-800 hover:bg-gray-200'>Logout</a>
-                <a href="/register" className='block px-4 py-2 text-gray-800 hover:bg-gray-200'>Register</a>
+                <Link onClick={logout} className='block px-4 py-2 text-gray-800 hover:bg-gray-200'>Logout</Link>
+                <Link href="/register" className='block px-4 py-2 text-gray-800 hover:bg-gray-200'>Register</Link>
               </div>
             </div>
           )}

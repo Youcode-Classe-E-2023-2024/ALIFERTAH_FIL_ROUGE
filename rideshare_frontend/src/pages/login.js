@@ -3,8 +3,11 @@ import React, { useState } from 'react'
 import 'react-toastify/dist/ReactToastify.css';
 import { toast, ToastContainer } from 'react-toastify';
 import axios from 'axios'
+import { useRouter } from 'next/router';
+
 
 function Login() {
+  const router = useRouter();
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const inputs = ["email", "password"];
@@ -37,6 +40,9 @@ function Login() {
             draggable: true,
             progress: undefined,
           });
+          setTimeout(() => {
+            router.replace('/availableTrips');
+          }, 2000);
         } else {
         toast.error('Registration failed: ' + response.statusText, {
         position: 'top-right',
