@@ -10,6 +10,19 @@ use Laravel\Sanctum\PersonalAccessToken;
 
 class UserController extends Controller
 {
+
+    /**
+     * this function returns all users registerd 
+     */
+    public function allUsers(Request $request){
+        $users = User::all();
+        
+        if ($users->isEmpty()) {
+            return response()->json(['message' => 'No Users found'], 404);
+        }
+        
+        return response()->json(['users' => $users], 200);
+    }
     /**
      * this function hadnles creating a new user in db
      */
@@ -51,7 +64,9 @@ class UserController extends Controller
         return response()->json($response, 200);
     }
 
-
+    /**
+     * this functrion handles the logout process
+     */
     public function logout(Request $request)
     {
         $user = $request->user();
