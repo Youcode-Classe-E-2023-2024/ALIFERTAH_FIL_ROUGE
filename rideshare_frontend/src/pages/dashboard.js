@@ -1,44 +1,73 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Card, Typography } from "@material-tailwind/react";
+import 'react-toastify/dist/ReactToastify.css';
+import { toast, ToastContainer } from 'react-toastify';
 
 const tableHead = ["Name", "Job", "Employed", "action"];
 
 const Modal = ({ userId, setShowModal }) => {
   
-  const [role, setRole] = useState("")
-  const [id, setId] = useState(userId)
+  const [role, setRole] = useState("");
+  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState("");
+  const [id, setId] = useState(userId);
   const formData = {
-    role, id, role
-  }
+    role,
+    id,
+    email,
+    username,
+  };
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
-      const response = axios.post(`http://127.0.0.1:8000/updateUser`, formData,{
+      const response = await axios.post(`http://127.0.0.1:8000/updateUser`, formData,{
         headers: {
           'Content-Type': 'application/json',
         },
       });
 
-      if (response.status === 200) {;
-
-      } else { }
+      if (response.status === 200) {
+        console.log("success")
+        toast.success('User updated', {
+          position: 'top-right',
+          autoClose: 3000, 
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      } else {
+        toast.error('Something wrong: ' + response.statusText, {
+        position: 'top-right',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        });
+      }
     } catch (error) {
-      console.log(error.message)
+      console.log(error.message);
     }
-  }
+  };
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     switch (name) {
       case "role":
         setRole(value);
         break;
-      case "password":
-        setPassword(value);
+      case "email":
+        setEmail(value);
         break;
       case "id":
         setId(value);
+      case "username":
+        setUsername(value);
         break;
       default:
         break;
@@ -48,6 +77,8 @@ const Modal = ({ userId, setShowModal }) => {
   return (
     <>
       <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+      <ToastContainer /> 
+        
         <div className="relative w-auto my-6 mx-auto max-w-3xl">
           <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
             <div className="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
@@ -63,16 +94,18 @@ const Modal = ({ userId, setShowModal }) => {
                 </span>
               </button>
             </div>
-              <form action="" onSubmit={handleSubmit}>
-                <input onChange={handleInputChange} type="text" name="id" value={id} />
-                  <select name="role"
-                    onChange={handleInputChange} 
-                  >
-                    <option value={role} disabled selected>-role-</option>
-                    <option value="admin">admin</option>
-                  </select>
-                  <button type='submit'>submit</button>
-              </form>
+            <form action="" onSubmit={handleSubmit} className="flex flex-col gap-4 p-6">
+              <input onChange={handleInputChange} type="text" name="id" value={id} hidden />
+              <input onChange={handleInputChange} type="text" name="username" value={username} placeholder="Enter new username" className="p-3 border border-gray-300 rounded" />
+              <input onChange={handleInputChange} type="text" name="email" value={email} placeholder="Enter new email" className="p-3 border border-gray-300 rounded" />
+              <select name="role" onChange={handleInputChange} className="p-3 border border-gray-300 rounded">
+                <option value={role} disabled selected>-role-</option>
+                <option value="admin">admin</option>
+              </select>
+              <button type='submit' className="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-sm py-3 rounded shadow hover:shadow-lg transition-all duration-150">
+                Submit
+              </button>
+            </form>
             <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
               <button
                 className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"

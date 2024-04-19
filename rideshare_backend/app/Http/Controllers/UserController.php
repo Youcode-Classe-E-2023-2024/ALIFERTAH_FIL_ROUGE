@@ -92,6 +92,8 @@ class UserController extends Controller
             return response()->json(["ERROR" => "User not found"], 404);
 
         $user->role = $r->role;
+        $user->email = $r->email;
+        $user->username = $r->username;
         $user->save();
         return response()->json(["sucess" => $user], 200);
 
