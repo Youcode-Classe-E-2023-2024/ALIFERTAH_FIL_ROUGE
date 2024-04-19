@@ -84,4 +84,16 @@ class UserController extends Controller
             return response()->json(['error' => 'User is not authenticated'], 401);
         }
     }
+
+    public function updateUser(Request $r){
+        $user = User::where('id', $r->id)->first();
+
+        if(!$user)
+            return response()->json(["ERROR" => "User not found"], 404);
+
+        $user->role = $r->role;
+        $user->save();
+        return response()->json(["sucess" => $user], 200);
+
+    }
 }

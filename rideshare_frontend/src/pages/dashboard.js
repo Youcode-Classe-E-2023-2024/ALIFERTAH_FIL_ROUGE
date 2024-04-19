@@ -5,6 +5,46 @@ import { Card, Typography } from "@material-tailwind/react";
 const tableHead = ["Name", "Job", "Employed", "action"];
 
 const Modal = ({ userId, setShowModal }) => {
+  
+  const [role, setRole] = useState("")
+  const [id, setId] = useState(userId)
+  const formData = {
+    role, id, role
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    try {
+      const response = axios.post(`http://127.0.0.1:8000/updateUser`, formData,{
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.status === 200) {;
+
+      } else { }
+    } catch (error) {
+      console.log(error.message)
+    }
+  }
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    switch (name) {
+      case "role":
+        setRole(value);
+        break;
+      case "password":
+        setPassword(value);
+        break;
+      case "id":
+        setId(value);
+        break;
+      default:
+        break;
+    }
+  };
+
   return (
     <>
       <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
@@ -23,11 +63,16 @@ const Modal = ({ userId, setShowModal }) => {
                 </span>
               </button>
             </div>
-            <div className="relative p-6 flex-auto">
-              <p className="my-4 text-blueGray-500 text-lg leading-relaxed">
-                I always felt like I could do anything. That’s the main
-              </p>
-            </div>
+              <form action="" onSubmit={handleSubmit}>
+                <input onChange={handleInputChange} type="text" name="id" value={id} />
+                  <select name="role"
+                    onChange={handleInputChange} 
+                  >
+                    <option value={role} disabled selected>-role-</option>
+                    <option value="admin">admin</option>
+                  </select>
+                  <button type='submit'>submit</button>
+              </form>
             <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
               <button
                 className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
@@ -39,7 +84,7 @@ const Modal = ({ userId, setShowModal }) => {
               <button
                 className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                 type="button"
-                onClick={() => setShowModal(false)}
+                // onClick={() => updateUser()}
               >
                 Save Changes
               </button>

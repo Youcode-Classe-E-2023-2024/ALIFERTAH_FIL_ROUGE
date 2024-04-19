@@ -46,4 +46,8 @@ Route::get('/allUsers', [UserController::class, "allUsers"])
 ->name("allUsers")
 ->middleware('auth:sanctum');
 
+Route::post('/updateUser', [UserController::class, "updateUser"])
+->name("updateUser")
+->middleware('auth:sanctum');
+
 
