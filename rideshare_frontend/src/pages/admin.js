@@ -5,7 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { toast, ToastContainer } from 'react-toastify';
 import Sidebar from '@/components/layout/sideBar';
 
-const tableHead = ["Name", "Job", "Employed", "action"];
+const tableHead = ["Username", "Email", "Role", "action"];
 
 const Modal = ({ userId, setShowModal }) => {
   
@@ -131,7 +131,7 @@ const Modal = ({ userId, setShowModal }) => {
   );
 };
 
-function Dashboard() {
+function Admin() {
   const [users, setUsers] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedUserId, setSelectedUserId] = useState(null);
@@ -163,7 +163,8 @@ function Dashboard() {
 
   return (
     <Card className="flex flex-row items-start h-full w-full overflow-scroll ">
-      <Sidebar />
+      <Sidebar items={[{name:"dashboard", link:"dashboard"}
+      , {name:"dashboard", link:"dashboard"}]}/>
       <table className="w-full min-w-max table-auto text-left">
         <thead>
           <tr>
@@ -196,7 +197,7 @@ function Dashboard() {
                     color="blue-gray"
                     className="font-normal"
                   >
-                    {user.email}
+                    {user.username}
                   </Typography>
                 </td>
                 <td className={classes}>
@@ -214,7 +215,7 @@ function Dashboard() {
                     color="blue-gray"
                     className="font-normal"
                   >
-                    {user.email}
+                    {user.role}
                   </Typography>
                 </td>
                 <td className={classes}>
@@ -223,7 +224,7 @@ function Dashboard() {
                     href="#"
                     variant="small"
                     color="blue-gray"
-                    className="font-medium"
+                    className="font-medium bg-green-500 text-center py-2 rounded-lg text-white"
                     onClick={() => handleModalOpen(user.id)}
                   >
                     Edit
@@ -241,4 +242,4 @@ function Dashboard() {
   );
 }
 
-export default Dashboard;
+export default Admin;
