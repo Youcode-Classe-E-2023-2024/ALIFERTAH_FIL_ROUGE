@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Card, Typography } from "@material-tailwind/react";
 import 'react-toastify/dist/ReactToastify.css';
 import { toast, ToastContainer } from 'react-toastify';
+import Sidebar from '@/components/layout/sideBar';
 
 const tableHead = ["Name", "Job", "Employed", "action"];
 
@@ -161,7 +162,8 @@ function Dashboard() {
   };
 
   return (
-    <Card className="h-full w-full overflow-scroll">
+    <Card className="flex flex-row items-start h-full w-full overflow-scroll ">
+      <Sidebar />
       <table className="w-full min-w-max table-auto text-left">
         <thead>
           <tr>
