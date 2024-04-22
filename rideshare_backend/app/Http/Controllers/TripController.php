@@ -82,4 +82,20 @@ class TripController extends Controller
         $user->reservations()->attach($trip->id, ["status" => "pending"]);
         return response()->json(['success' => "WE WILL NOTIFY THE ORGANISER"], 200);
     }
+
+    /**
+     * this function uipdates a trip
+     */
+    public function updateTrip(Request $r){
+
+        $trip = Trip::where('id', $r->id)->first();
+
+        if(!$trip)
+            return response()->json(["ERROR" => ["id" => $r->id]], 404);
+        $trip->arrival = $r->arrival;
+        $trip->departure = $r->departure;
+        $trip->save();
+
+        return response()->json(['success' => $trip], 200);
+    }
 }

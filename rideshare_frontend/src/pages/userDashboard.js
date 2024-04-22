@@ -4,26 +4,23 @@ import { Card, Typography } from "@material-tailwind/react";
 import 'react-toastify/dist/ReactToastify.css';
 import { toast, ToastContainer } from 'react-toastify';
 import Sidebar from '@/components/layout/sideBar';
+import Primary from '@/components/buttons/primary';
 
 const tableHead = ["Username", "Email", "Role", "action"];
 
-const Modal = ({ userId, setShowModal }) => {
+const Modal = ({ tripId, setShowModal }) => {
   
-  const [role, setRole] = useState("");
-  const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
-  const [id, setId] = useState(userId);
+  const [departure, setDeparture] = useState("");
+  const [arrival, setArrival] = useState("");
+  const [id, setId] = useState(tripId);
   const formData = {
-    role,
-    id,
-    email,
-    username,
+    departure, arrival, id
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`http://127.0.0.1:8000/updateUser`, formData,{
+      const response = await axios.post(`http://127.0.0.1:8000/updateTrip`, formData,{
         headers: {
           'Content-Type': 'application/json',
         },
@@ -59,17 +56,14 @@ const Modal = ({ userId, setShowModal }) => {
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     switch (name) {
-      case "role":
-        setRole(value);
+      case "departure":
+        setDeparture(value);
         break;
-      case "email":
-        setEmail(value);
+      case "arrival":
+        setArrival(value);
         break;
       case "id":
         setId(value);
-      case "username":
-        setUsername(value);
-        break;
       default:
         break;
     }
@@ -84,7 +78,7 @@ const Modal = ({ userId, setShowModal }) => {
           <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
             <div className="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
               <h3 className="text-3xl font-semibold">
-                User ID: {userId}
+                Trip ID: {tripId}
               </h3>
               <button
                 className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
@@ -97,14 +91,10 @@ const Modal = ({ userId, setShowModal }) => {
             </div>
             <form action="" onSubmit={handleSubmit} className="flex flex-col gap-4 p-6">
               <input onChange={handleInputChange} type="text" name="id" value={id} hidden />
-              <input onChange={handleInputChange} type="text" name="username" value={username} placeholder="Enter new username" className="p-3 border border-gray-300 rounded" />
-              <input onChange={handleInputChange} type="text" name="email" value={email} placeholder="Enter new email" className="p-3 border border-gray-300 rounded" />
-              <select name="role" onChange={handleInputChange} className="p-3 border border-gray-300 rounded">
-                <option value={role} disabled selected>-role-</option>
-                <option value="UserDashboard">UserDashboard</option>
-              </select>
-              <button type='submit' className="bg-blue-500 text-white active:bg-blue-600 font-bold uppercase text-sm py-3 rounded shadow hover:shadow-lg transition-all duration-150">
-                Submit
+              <input onChange={handleInputChange} type="text" name="departure" value={departure} placeholder="Departure" className="p-3 border border-gray-300 rounded" />
+              <input onChange={handleInputChange} type="text" name="arrival" value={arrival} placeholder="Arrival" className="p-3 border border-gray-300 rounded" />
+              <button type='submit' >
+                <Primary text="Submit"/>
               </button>
             </form>
             <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
@@ -118,7 +108,6 @@ const Modal = ({ userId, setShowModal }) => {
               <button
                 className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                 type="button"
-                // onClick={() => updateUser()}
               >
                 Save Changes
               </button>
@@ -134,7 +123,7 @@ const Modal = ({ userId, setShowModal }) => {
 function UserDashboard() {
   const [trips, setTrips] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  const [selectedUserId, setSelectedUserId] = useState(null);
+  const [selectedTripId, setSelectedTripId] = useState(null);
 
   useEffect(() => {
     const authToken = () => {
@@ -149,16 +138,15 @@ function UserDashboard() {
     axios.get('http://127.0.0.1:8000/allTrips')
       .then((response) => {
         setTrips(response.data.trips);
-        console.log(users);
       })
       .catch(error => {
         console.error(error);
       });
   }, []);
 
-  const handleModalOpen = (userId) => {
+  const handleModalOpen = (tripId) => {
     setShowModal(true);
-    setSelectedUserId(userId);
+    setSelectedTripId(tripId);
   };
 
   return (
@@ -220,12 +208,10 @@ function UserDashboard() {
                 </td>
                 <td className={classes}>
                   <Typography
-                    as="a"
-                    href="#"
                     variant="small"
                     color="blue-gray"
                     className="font-medium bg-green-500 text-center py-2 rounded-lg text-white"
-                    onClick={() => handleModalOpen(user.id)}
+                    onClick={() => handleModalOpen(trip.id)}
                   >
                     Edit
                   </Typography>
@@ -236,7 +222,7 @@ function UserDashboard() {
         </tbody>
       </table>
       {showModal && (
-        <Modal userId={selectedUserId} setShowModal={setShowModal} />
+        <Modal tripId={selectedTripId} setShowModal={setShowModal} />
       )}
     </Card>
   );

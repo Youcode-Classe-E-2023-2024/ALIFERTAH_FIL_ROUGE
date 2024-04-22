@@ -50,4 +50,8 @@ Route::post('/updateUser', [UserController::class, "updateUser"])
 ->name("updateUser")
 ->middleware('auth:sanctum');
 
+Route::post('/updateTrip', [TripController::class, "updateTrip"])
+->name("updateTrip")
+->middleware('auth:sanctum');
+
 
