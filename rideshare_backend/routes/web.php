@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\TripController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
@@ -21,7 +22,7 @@ Route::get('/', function () {
 
 Route::post('/register', [UserController::class , "register"])->name("register");
 Route::post('/login', [UserController::class , "login"])->name("login"); 
-// Route::post('/logout', [UserController::class , "logout"])->name("logout");
+// Route::post('/logout', [UserController::class , "logout"])->name("logout"); 
 
 Route::post('/logout', [UserController::class, "logout"])
     ->name("logout")
@@ -52,6 +53,14 @@ Route::post('/updateUser', [UserController::class, "updateUser"])
 
 Route::post('/updateTrip', [TripController::class, "updateTrip"])
 ->name("updateTrip")
+->middleware('auth:sanctum');
+
+Route::get('/bookings', [BookingController::class, "bookings"])
+->name("bookings")
+->middleware('auth:sanctum');
+
+Route::delete('/deleteUser/{id}', [UserController::class, "deleteUser"])
+->name("deleteUser");
 ->middleware('auth:sanctum');
 
 

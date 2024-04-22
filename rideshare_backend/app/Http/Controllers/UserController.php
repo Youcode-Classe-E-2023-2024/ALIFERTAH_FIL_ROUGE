@@ -83,6 +83,9 @@ class UserController extends Controller
             return response()->json(['error' => 'User is not authenticated'], 401);
         }
     }
+    /**
+     * this function upadtes  a user's infos
+     */
 
     public function updateUser(Request $r){
         $user = User::where('id', $r->id)->first();
@@ -97,4 +100,18 @@ class UserController extends Controller
         return response()->json(["sucess" => $user], 200);
 
     }
+
+    /**
+     * this function deletes a user based on its id
+     * 
+     */
+    public function deleteUser(Request $r, $id){
+        $user = User::find($id);
+        if(!$user)
+            return response()->json(["error : " => "user not found"], 404);
+        
+        $user->delete();
+        return response()->json(["success : " => "user deleted!!"], 200);
+
+    } 
 }
