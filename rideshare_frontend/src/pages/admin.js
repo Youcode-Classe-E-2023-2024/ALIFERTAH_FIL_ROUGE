@@ -161,6 +161,40 @@ function Admin() {
     setSelectedUserId(userId);
   };
 
+  const handleDelete = async (deletedUserId) => {
+    try {
+      const response = await axios.delete(`http://127.0.0.1:8000/deleteUser/${deletedUserId}` ,{
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.status === 200) {
+        console.log("success")
+        toast.success('User updated', {
+          position: 'top-right',
+          autoClose: 3000, 
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      } else {
+        toast.error('Something wrong: ' + response.statusText, {
+        position: 'top-right',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        });
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  }
   return (
     <Card className="flex flex-row items-start h-full w-full overflow-scroll ">
       <Sidebar items={[{name:"dashboard", link:"dashboard"}
@@ -171,7 +205,7 @@ function Admin() {
             {tableHead.map((head) => (
               <th
                 key={head}
-                className="border-b border-blue-gray-100 bg-blue-gray-50 p-4"
+                className="border-b border-blue-gray-100 bg-blue-gray-50 p-4 text-center"
               >
                 <Typography
                   variant="small"
@@ -218,16 +252,26 @@ function Admin() {
                     {user.role}
                   </Typography>
                 </td>
-                <td className={classes}>
+                <td className={`flex w-full justify-center space-x-2 ${classes}`}>
                   <Typography
                     as="a"
                     href="#"
                     variant="small"
                     color="blue-gray"
-                    className="font-medium bg-green-500 text-center py-2 rounded-lg text-white"
+                    className="font-medium bg-green-500 text-center px-4 py-2 rounded-lg text-white"
                     onClick={() => handleModalOpen(user.id)}
                   >
                     Edit
+                  </Typography>
+                  <Typography
+                    as="a"
+                    href="#"
+                    variant="small"
+                    color="blue-gray"
+                    className="font-medium bg-red-500 text-center px-4 py-2 rounded-lg text-white"
+                    onClick={() => handleDelete(user.id)}
+                  >
+                    Delete
                   </Typography>
                 </td>
               </tr>

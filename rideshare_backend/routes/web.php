@@ -60,7 +60,7 @@ Route::get('/bookings', [BookingController::class, "bookings"])
 ->middleware('auth:sanctum');
 
 Route::delete('/deleteUser/{id}', [UserController::class, "deleteUser"])
-->name("deleteUser");
+->name("deleteUser")
 ->middleware('auth:sanctum');
 
 

@@ -108,6 +108,7 @@ function NewTrip() {
 
   return (
     <div className="bg-[#F5F5F5] my-40 flex flex-col items-center justify-center py-8 space-y-8 w-full">
+      <ToastContainer />
       <ol className="items-center space-y-4 sm:flex sm:space-x-8 sm:space-y-0 rtl:space-x-reverse">
         {steps}
       </ol>
@@ -126,7 +127,6 @@ function NewTrip() {
       <div onClick={handleClick}>
         <Primary text="Submit" />
       </div>
-      <ToastContainer />
     </div>
   )
 }

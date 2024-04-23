@@ -69,6 +69,7 @@ const Modal = ({ tripId, setShowModal }) => {
     }
   };
 
+  
   return (
     <>
       <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
@@ -121,6 +122,10 @@ const Modal = ({ tripId, setShowModal }) => {
 };
 
 function UserDashboard() {
+  const loggedUsername = () => {
+    const tokenCookie = document.cookie.split('; ').find(row => row.startsWith('username='));
+    return tokenCookie ? tokenCookie.split('=')[1] : null;
+};
   const [trips, setTrips] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedTripId, setSelectedTripId] = useState(null);
@@ -137,7 +142,10 @@ function UserDashboard() {
   useEffect(() => {
     axios.get('http://127.0.0.1:8000/allTrips')
       .then((response) => {
-        setTrips(response.data.trips);
+        console.log(loggedUsername())
+        let filtred = response.data.trips.filter(val =>  val.owner === loggedUsername())
+        // console.log(filtred)
+        setTrips(filtred);
       })
       .catch(error => {
         console.error(error);
@@ -148,15 +156,19 @@ function UserDashboard() {
     setShowModal(true);
     setSelectedTripId(tripId);
   };
-
   return (
-    <Card className="flex flex-row items-start h-full w-full overflow-scroll ">
-      <Sidebar items={[{name:"dashboard", link:"dashboard"}
-      , {name:"dashboard", link:"dashboard"}]}/>
+    <div className='flex'>
+
+      <Sidebar items={[{name:"dashboard", link:"/userDashboard"}
+      , {name:"new trip", link:"/newTrip"}]}/>
+      <Card className="flex flex-col items-start h-full w-full overflow-scroll ">
+      <div className='flex flex-col w-full'>
+      <h1>TRIPS</h1>
       <table className="w-full min-w-max table-auto text-left">
         <thead>
           <tr>
             {tableHead.map((head) => (
+              
               <th
                 key={head}
                 className="border-b border-blue-gray-100 bg-blue-gray-50 p-4"
@@ -221,10 +233,85 @@ function UserDashboard() {
           })}
         </tbody>
       </table>
+      </div>
+      <div className='flex flex-col w-full'>
+      <h1>TRIPS</h1>
+      <table className="w-full min-w-max table-auto text-left">
+        <thead>
+          <tr>
+            {tableHead.map((head) => (
+              
+              <th
+                key={head}
+                className="border-b border-blue-gray-100 bg-blue-gray-50 p-4"
+              >
+                <Typography
+                  variant="small"
+                  color="blue-gray"
+                  className="font-normal leading-none opacity-70"
+                >
+                  {head}
+                </Typography>
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {trips.map((trip, index) => {
+            const isLast = index === trips.length - 1;
+            const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50";
+
+            return (
+              <tr key={index}>
+                <td className={classes}>
+                  <Typography
+                    variant="small"
+                    color="blue-gray"
+                    className="font-normal"
+                  >
+                    {trip.owner}
+                  </Typography>
+                </td>
+                <td className={classes}>
+                  <Typography
+                    variant="small"
+                    color="blue-gray"
+                    className="font-normal"
+                  >
+                    {trip.owner}
+                  </Typography>
+                </td>
+                <td className={classes}>
+                  <Typography
+                    variant="small"
+                    color="blue-gray"
+                    className="font-normal"
+                  >
+                    {trip.owner}
+                  </Typography>
+                </td>
+                <td className={classes}>
+                  <Typography
+                    variant="small"
+                    color="blue-gray"
+                    className="font-medium bg-green-500 text-center py-2 rounded-lg text-white"
+                    onClick={() => handleModalOpen(trip.id)}
+                  >
+                    Edit
+                  </Typography>
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+      </div>
+      
       {showModal && (
         <Modal tripId={selectedTripId} setShowModal={setShowModal} />
       )}
     </Card>
+    </div>
   );
 }
 
