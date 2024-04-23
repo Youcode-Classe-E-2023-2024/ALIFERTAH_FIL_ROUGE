@@ -36,10 +36,17 @@ export function Post () {
     const tokenCookie = document.cookie.split('; ').find(row => row.startsWith('token='));
     return tokenCookie ? tokenCookie.split('=')[1] : null;
   };
+
+  const loggedInUserId = () => {
+    const tokenCookie = document.cookie.split('; ').find(row => row.startsWith('userId='));
+    return tokenCookie ? tokenCookie.split('=')[1] : null;
+  };
+
+
 const handleBook = async() =>{
   axios.defaults.headers.common['Authorization'] = authTokenn() ? `Bearer ${authTokenn()}` : '';
   try {
-    const response = await axios.post(`http://127.0.0.1:8000/book/${id}`);
+    const response = await axios.post(`http://127.0.0.1:8000/book/${id}`, {"userId" : loggedInUserId()});
     
     if (response.status === 200) {
       toast.success('Booking successful!', {

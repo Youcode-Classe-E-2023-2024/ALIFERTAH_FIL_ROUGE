@@ -127,6 +127,7 @@ function UserDashboard() {
     return tokenCookie ? tokenCookie.split('=')[1] : null;
 };
   const [trips, setTrips] = useState([]);
+  const [bookings, setBookings] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedTripId, setSelectedTripId] = useState(null);
 
@@ -140,12 +141,14 @@ function UserDashboard() {
   }, []);
 
   useEffect(() => {
-    axios.get('http://127.0.0.1:8000/allTrips')
+    axios.get('http://127.0.0.1:8000/userDashboardData')
       .then((response) => {
         console.log(loggedUsername())
-        let filtred = response.data.trips.filter(val =>  val.owner === loggedUsername())
+        let filtredTrips = response.data.data.trips.filter(val =>  val.owner === loggedUsername())
         // console.log(filtred)
-        setTrips(filtred);
+        setTrips(filtredTrips);
+        setBookings(response.data.data.bookings);
+        console.log("BOOKINGS : ",bookings)
       })
       .catch(error => {
         console.error(error);
@@ -234,6 +237,9 @@ function UserDashboard() {
         </tbody>
       </table>
       </div>
+
+
+      {/* THIS IS BOOKINGS TABLE */}
       <div className='flex flex-col w-full'>
       <h1>TRIPS</h1>
       <table className="w-full min-w-max table-auto text-left">
@@ -257,7 +263,7 @@ function UserDashboard() {
           </tr>
         </thead>
         <tbody>
-          {trips.map((trip, index) => {
+          {bookings.map((trip, index) => {
             const isLast = index === trips.length - 1;
             const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50";
 
@@ -269,7 +275,7 @@ function UserDashboard() {
                     color="blue-gray"
                     className="font-normal"
                   >
-                    {trip.owner}
+                    {trip.id}
                   </Typography>
                 </td>
                 <td className={classes}>
@@ -278,7 +284,7 @@ function UserDashboard() {
                     color="blue-gray"
                     className="font-normal"
                   >
-                    {trip.owner}
+                    {trip.id}
                   </Typography>
                 </td>
                 <td className={classes}>
@@ -287,7 +293,7 @@ function UserDashboard() {
                     color="blue-gray"
                     className="font-normal"
                   >
-                    {trip.owner}
+                    {trip.id}
                   </Typography>
                 </td>
                 <td className={classes}>

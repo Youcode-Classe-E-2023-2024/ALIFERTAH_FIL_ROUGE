@@ -9,6 +9,10 @@ class Booking extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        "trip_owner"
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);

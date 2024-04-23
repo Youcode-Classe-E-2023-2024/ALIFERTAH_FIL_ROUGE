@@ -96,7 +96,7 @@ class TripController extends Controller
         
         $user = $r->user();
         $trip = Trip::find($id);
-        $user->reservations()->attach($trip->id, ["status" => "pending"]);
+        $user->reservations()->attach($trip->id, ["status" => "pending", "trip_owner" => $r->userId]);
         return response()->json(['success' => "WE WILL NOTIFY THE ORGANISER"], 200);
     }
 

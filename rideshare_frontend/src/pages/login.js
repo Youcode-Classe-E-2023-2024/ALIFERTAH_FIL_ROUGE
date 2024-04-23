@@ -31,6 +31,7 @@ function Login() {
           document.cookie = `token=${response.data.data.token}`
           document.cookie = `role=${response.data.data.user.role}`
           document.cookie = `username=${response.data.data.user.username}`
+          document.cookie = `userId=${response.data.data.user.id}`
           toast.success('Login successful', {
             position: 'top-right',
             autoClose: 3000, 

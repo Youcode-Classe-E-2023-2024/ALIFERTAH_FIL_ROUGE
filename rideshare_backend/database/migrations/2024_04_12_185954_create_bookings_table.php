@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('trip_id')->constrained()->onDelete('cascade');
             $table->string('status')->default("pending");
+            $table->string('trip_owner');
             $table->timestamps();
         });
     }
