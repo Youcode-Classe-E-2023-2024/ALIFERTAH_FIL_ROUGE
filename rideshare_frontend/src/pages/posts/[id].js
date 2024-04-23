@@ -43,10 +43,10 @@ export function Post () {
   };
 
 
-const handleBook = async() =>{
+const handleBook = async(postOwner) =>{
   axios.defaults.headers.common['Authorization'] = authTokenn() ? `Bearer ${authTokenn()}` : '';
   try {
-    const response = await axios.post(`http://127.0.0.1:8000/book/${id}`, {"userId" : loggedInUserId()});
+    const response = await axios.post(`http://127.0.0.1:8000/book/${id}`, {"userId" : postOwner});
     
     if (response.status === 200) {
       toast.success('Booking successful!', {
@@ -102,7 +102,7 @@ const handleBook = async() =>{
     </div>
   </div>
   <div class="w-full">
-    <div class="bg-white p-4 rounded-lg shadow-md flex items-center justify-center cursor-pointer" onClick={handleBook}>
+    <div class="bg-white p-4 rounded-lg shadow-md flex items-center justify-center cursor-pointer" onClick={() => handleBook(post.owner)}>
       <Primary text="BOOK NOW"/>
     </div>
   </div>
