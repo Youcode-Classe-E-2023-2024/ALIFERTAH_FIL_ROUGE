@@ -63,4 +63,8 @@ Route::delete('/deleteUser/{id}', [UserController::class, "deleteUser"])
 ->name("deleteUser")
 ->middleware('auth:sanctum');
 
+Route::get('/userDashboardData', [TripController::class, "userDashboardData"])
+->name("userDashboardData")
+->middleware('auth:sanctum');
+
 

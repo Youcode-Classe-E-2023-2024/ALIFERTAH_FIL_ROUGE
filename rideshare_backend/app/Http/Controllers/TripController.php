@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Booking;
 use App\Models\Trip;
 use Illuminate\Http\Request;
 
@@ -56,6 +57,22 @@ class TripController extends Controller
         }
         
         return response()->json(['trips' => $trips], 200);
+    }
+
+    /**
+     * Retrieves all available trips and returns the data in the response
+     */
+    public function userDashboardData()
+    {
+        $trips = Trip::all();
+        $bookings = Booking::all();
+
+        $data = ["trips" => $trips, "bookings" => $bookings];
+        if ($trips->isEmpty() || $bookings->isEmpty()) {
+            return response()->json(['message' => 'No trips found'], 404);
+        }
+        
+        return response()->json(['data' => $data], 200);
     }
 
     /**
