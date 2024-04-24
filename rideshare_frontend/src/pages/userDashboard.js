@@ -7,6 +7,7 @@ import Sidebar from '@/components/layout/sideBar';
 import Primary from '@/components/buttons/primary';
 
 const tableHead = ["Username", "Email", "Role", "action"];
+const bookingTableHead = ["booking", "owner", "status", "action"];
 
 const Modal = ({ tripId, setShowModal }) => {
   
@@ -159,6 +160,10 @@ function UserDashboard() {
     setShowModal(true);
     setSelectedTripId(tripId);
   };
+
+  const handleAccept = (bookingId, tripId, userId) =>{
+    axios.post('http://127.0.0.1:8000/acceptBooking', {"bookingId" : bookingId, "userId" :{userId}, "tripId" : tripId})
+  }
   return (
     <div className='flex'>
 
@@ -226,7 +231,7 @@ function UserDashboard() {
                     variant="small"
                     color="blue-gray"
                     className="font-medium bg-green-500 text-center py-2 rounded-lg text-white"
-                    onClick={() => handleModalOpen(trip.id)}
+                    onClick={() => handleModalOpen(trip.id, trip.user_id, trip.trip_id)}
                   >
                     Edit
                   </Typography>
@@ -245,7 +250,7 @@ function UserDashboard() {
       <table className="w-full min-w-max table-auto text-left">
         <thead>
           <tr>
-            {tableHead.map((head) => (
+            {bookingTableHead.map((head) => (
               
               <th
                 key={head}
@@ -301,9 +306,9 @@ function UserDashboard() {
                     variant="small"
                     color="blue-gray"
                     className="font-medium bg-green-500 text-center py-2 rounded-lg text-white"
-                    onClick={() => handleModalOpen(trip.id)}
+                    onClick={() => handleAccept(trip.id)}
                   >
-                    Edit
+                    Accept
                   </Typography>
                 </td>
               </tr>

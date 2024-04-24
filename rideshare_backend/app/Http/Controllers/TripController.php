@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Booking;
 use App\Models\Trip;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class TripController extends Controller
@@ -114,5 +115,18 @@ class TripController extends Controller
         $trip->save();
 
         return response()->json(['success' => $trip], 200);
+    }
+
+    /**
+     * this function accepts booking
+     */
+    public function acceptBooking(Request $r){
+        $booking = Booking::findOrFail($r->bookingId);
+
+        // Update the status of the booking
+        $booking->status = 'accepted';
+        $booking->save();
+    
+        return response()->json(['response' => 'Booking request accepted successfully!']);
     }
 }
