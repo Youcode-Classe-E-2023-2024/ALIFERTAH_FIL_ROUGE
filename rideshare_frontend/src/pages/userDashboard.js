@@ -178,6 +178,19 @@ function UserDashboard() {
 
   const handleDeleteTrip = (tripId) => {
     axios.delete(`http://127.0.0.1:8000/deleteTrip/${tripId}`)
+    .then ((response) => {
+      if (response) {
+        toast.success('Trip deleted successfully!', {
+          position: 'top-right',
+          autoClose: 3000, 
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
+      } 
+    })
   } 
   return (
     <div className='flex'>
@@ -264,6 +277,8 @@ function UserDashboard() {
           })}
         </tbody>
       </table>
+      <ToastContainer /> 
+
       </div>
 
 

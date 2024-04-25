@@ -135,7 +135,7 @@ class TripController extends Controller
     public function deleteTrip($id){
         $trip = Trip::find($id);
         $trip->delete();
-        
-        return response()->json(['response' => 'Trip deleted successfully!']);
+
+        return response()->json(['response' => 'Trip deleted successfully!'], 200);
     }
 }
