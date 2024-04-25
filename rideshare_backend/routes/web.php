@@ -65,8 +65,7 @@ Route::delete('/deleteUser/{id}', [UserController::class, "deleteUser"])
 ->middleware('auth:sanctum');
 
 Route::get('/userDashboardData', [TripController::class, "userDashboardData"])
-->name("userDashboardData")
-->middleware('auth:sanctum');
+->name("userDashboardData");
 
 Route::post('/acceptBooking', [TripController::class, "acceptBooking"])
 ->name("acceptBooking")

@@ -116,7 +116,7 @@ function NewTrip() {
       <div className="flex items-center rounded-full justify-center bg-white shadow-lg py-2 pl-2">
         <Image src="/icons/location.svg" height={15} width={15} />
         <input
-          type={inputs[currentIndex].name === "date" ? ('date') : ("text")} size="60" placeholder={currentIndex}
+          type={inputs[currentIndex].name === "date" ? ('date') : ("text")} size="60" placeholder={inputs[currentIndex].question}
           name={inputs[currentIndex].name}
           value={formData[inputs[currentIndex].name] || ''}
           onChange={handleInputChange}

@@ -131,6 +131,9 @@ const Modal = ({ userId, setShowModal }) => {
   );
 };
 
+
+
+// THIS IS ADMIN MAIN COMPONENT
 function Admin() {
   const [users, setUsers] = useState([]);
   const [showModal, setShowModal] = useState(false);
@@ -155,7 +158,18 @@ function Admin() {
         console.error(error);
       });
   }, []);
-
+  const [trips, setTrips] =useState();
+  useEffect(() => {
+    axios.get('http://127.0.0.1:8000/userDashboardData')
+      .then((response) => {
+        console.log(response)
+        setTrips(response.data.data.trips);
+        console.log(trips, "TRIIIIIIIIIIIPS")
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  }, [])
   const handleModalOpen = (userId) => {
     setShowModal(true);
     setSelectedUserId(userId);
@@ -199,6 +213,8 @@ function Admin() {
     <Card className="flex flex-row items-start h-full w-full overflow-scroll ">
       <Sidebar items={[{name:"dashboard", link:"dashboard"}
       , {name:"dashboard", link:"dashboard"}]}/>
+      <div className='flex flex-col w-full'>
+
       <table className="w-full min-w-max table-auto text-left">
         <thead>
           <tr>
@@ -279,6 +295,88 @@ function Admin() {
           })}
         </tbody>
       </table>
+
+
+      {/* trips table */}
+      <table className="w-full min-w-max table-auto text-left">
+        <thead>
+          <tr>
+            {tableHead.map((head) => (
+              
+              <th
+                key={head}
+                className="border-b border-blue-gray-100 bg-blue-gray-50 p-4 "
+              >
+                <Typography
+                  variant="small"
+                  color="blue-gray"
+                  className="font-normal leading-none opacity-70 text-center"
+                >
+                  {head}
+                </Typography>
+              </th>
+            ))}
+          </tr>
+        </thead>
+        <tbody>
+          {trips.map((trip, index) => {
+            const isLast = index === trips.length - 1;
+            const classes = isLast ? "p-4" : "p-4 border-b border-blue-gray-50";
+
+            return (
+              <tr key={index}>
+                <td className={`text-center ${classes}`}>
+                  <Typography
+                    variant="small"
+                    color="blue-gray"
+                    className="font-normal"
+                  >
+                    {trip.departure}
+                  </Typography>
+                </td>
+                <td className={`text-center ${classes}`}>
+                  <Typography
+                    variant="small"
+                    color="blue-gray"
+                    className="font-normal"
+                  >
+                    {trip.arrival}
+                  </Typography>
+                </td>
+                <td className={`text-center ${classes}`}>
+                  <Typography
+                    variant="small"
+                    color="blue-gray"
+                    className="font-normal"
+                  >
+                    {trip.date}
+                  </Typography>
+                </td>
+                <td className={`flex space-x-4 w-full justify-center ${classes}`}>
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="font-medium bg-[#346751] hover:bg-[#346711] cursor-pointer px-4 duration-200 text-center py-2 rounded-lg text-white"
+                      onClick={() => handleModalOpen(trip.id, trip.user_id, trip.trip_id)}
+                    >
+                      Edit
+                    </Typography>
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="font-medium px-4 bg-red-500 hover:bg-red-700 cursor-pointer duration-200 text-center py-2 rounded-lg text-white"
+                      onClick={() => handleDeleteTrip(trip.id)}
+                    >
+                      Delete
+                    </Typography>
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+      </div>
+      
       {showModal && (
         <Modal userId={selectedUserId} setShowModal={setShowModal} />
       )}
