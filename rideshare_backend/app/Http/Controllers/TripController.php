@@ -123,7 +123,6 @@ class TripController extends Controller
     public function acceptBooking(Request $r){
         $booking = Booking::findOrFail($r->bookingId);
 
-        // Update the status of the booking
         $booking->status = 'accepted';
         $booking->save();
     

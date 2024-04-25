@@ -137,7 +137,7 @@ function Login() {
           </div>
         </form>
         <ToastContainer />
-        <Image src="/imgs/login.png" className='ml-[-900px]' height={500} width={400} />
+        <Image src="/imgs/login.png" className='hidden lg:ml-[-900px] lg:block' height={500} width={400} />
       </div>
     </main>
   );

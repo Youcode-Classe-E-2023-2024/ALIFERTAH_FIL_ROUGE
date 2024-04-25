@@ -55,8 +55,7 @@ function Header() {
               {isDropDown && (
                 <div className="absolute right-0 mt-56 w-48 bg-white rounded-md shadow-lg z-10">
                   <div className="py-1">
-                    <Link href="/dashboard" className="block px-4 py-2 text-gray-800 hover:bg-gray-200">Dashboard</Link>
-                    <a href="#" className="block px-4 py-2 text-gray-800 hover:bg-gray-200">Settings</a>
+                    <Link href="/userDashboard" className="block px-4 py-2 text-gray-800 hover:bg-gray-200">Dashboard</Link>
                     <div onClick={logout} className="cursor-pointer block px-4 py-2 text-gray-800 hover:bg-gray-200">Logout</div>
                   </div>
                 </div>

@@ -103,15 +103,21 @@ class UserController extends Controller
 
     /**
      * this function deletes a user based on its id
-     * 
      */
     public function deleteUser(Request $r, $id){
         $user = User::find($id);
         if(!$user)
             return response()->json(["error : " => "user not found"], 404);
-        
         $user->delete();
         return response()->json(["success : " => "user deleted!!"], 200);
-
+        
     } 
+    
+    /**
+     * this function returns the information of a single user based on its id
+     */
+    public function userInfo(Request $r, $id){
+        $user = User::find($id);
+        return response($user);
+    }
 }

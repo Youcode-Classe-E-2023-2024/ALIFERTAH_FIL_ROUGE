@@ -71,4 +71,8 @@ Route::post('/acceptBooking', [TripController::class, "acceptBooking"])
 ->name("acceptBooking")
 ->middleware('auth:sanctum');
 
+Route::get('/user/{id}', [UserController::class, "userInfo"])
+->name("userInfo");
+// ->middleware('auth:sanctum');
+
 

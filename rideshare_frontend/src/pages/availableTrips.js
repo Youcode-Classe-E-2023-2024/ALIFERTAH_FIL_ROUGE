@@ -1,6 +1,7 @@
-import axios from 'axios'
-import Image from 'next/image'
-import React, { useEffect, useState } from 'react'
+import axios from 'axios';
+import Image from 'next/image';
+import Link from 'next/link';
+import React, { useEffect, useState } from 'react';
 
 function AvailableTrips() {
     const [trips, setTrips] = useState([]);
@@ -8,6 +9,7 @@ function AvailableTrips() {
         const tokenCookie = document.cookie.split('; ').find(row => row.startsWith('token='));
         return tokenCookie ? tokenCookie.split('=')[1] : null;
     };
+
     useEffect(() => {
         const authToken = () => {
             const tokenCookie = document.cookie.split('; ').find(row => row.startsWith('token='));
@@ -28,56 +30,48 @@ function AvailableTrips() {
     }, []);
 
     return (
-        <main className='flex'>
-    {!trips.length ? (
-        <div>Loading ...</div>
-    ) : (
-        trips
-            .filter(val => val.owner != loggedUsername)
-            .map((val, key) => (
-                <div className='max-w-md mx-auto overflow-hidden shadow-lg hover:shadow-xl duration-500 my-12' key={key}>
-                    <div className='p-6 space-y-8'>
-                        <div className='flex space-x-12'>
-                            <div className='space-y-4'>
-                                <div className='flex space-x-4'>
-                                    <span>12:07</span>
-                                    <div className='flex pr-12 items-center'>
-                                        <Image src="/icons/location.svg" width={15} height={15} alt="Location Icon"/>
-                                        <span>{val.departure}</span>
+        <main className='flex flex-wrap justify-center flex-col w-full items-center'>
+            {!trips.length ? (
+                <div>Loading ...</div>
+            ) : (
+                trips
+                .filter(val => val.owner !== loggedUsername())
+                .map((val, key) => (
+                    <div className='' key={key}>
+                        <div class="flex mx-auto items-center my-8">
+                            <div class="flex bg-[#346751] p-4 rounded-lg">
+                                <div class="flex flex-col w-2/3 pr-4 bg">
+                                <div className='flex items-center'>
+                                    <div className='flex items-center space-x-4'>
+                                        <p class="text-2xl font-black mb-2 text-gray-50">{val.departure} </p>
                                     </div>
-                                    <span className='bg-[#346751] rounded-full text-white px-2'>{val.price} $</span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="white" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                    </svg>
+                                    <div className='flex items-center space-x-4'>
+                                        <p class="text-2xl font-black mb-2 text-gray-50">{val.arrival} </p>
+                                    </div>
                                 </div>
-                                <div className='flex space-x-4'>
-                                    <span>12:07</span>
-                                    <div className='flex items-center'>
-                                        <Image src="/icons/location.svg" width={15} height={15} alt="Location Icon"/>
-                                        <span>{val.arrival}</span>
-                                    </div>
+                                <p class="text-lg font-light leading-5 text-gray-300">Where the earth is stepped on, there the sky is upheld</p>
+                                <div class="flex h-full items-end text-gray-300 hover:text-gray-50">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                                    </svg>
+                                    <Link href={`/posts/${val.id}`} class="text-sm font-semibold flex items-center space-x-2">
+                                    <span>BOOK NOW</span>
+                                    </Link>
+                                </div>
+                                </div>
+                                <div class="w-1/3">
+                                <img class="w-full hover:animate-bounce rounded-lg" src="https://www.riautelevisi.com/foto_berita/77foto%20ilustrasi.jpg" alt="" />
                                 </div>
                             </div>
                         </div>
-                        <div className='flex space-x-20 border-t'>
-                            <span>{val.owner}</span>
-                            <span className='text-[#346751] font-bold-xl flex items-center space-x-2'>
-                                <p>
-                                    {val.places}
-                                </p>
-                                <Image src="/icons/user.svg" width={10} height={10}/>
-                                </span>
-                            <a href={`/posts/${val.id}`} className='text-[#346751] flex items-center hover:scale-110 duration-300'>
-                                <span>GO</span>                                
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true" class="h-4 w-4">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3"></path>
-                            </svg>
-                            </a>
-                        </div>
                     </div>
-                </div>
-            ))
-    )}
-    </main>
-
-    )
+                ))
+            )}
+        </main>
+    );
 }
 
-export default AvailableTrips
+export default AvailableTrips;

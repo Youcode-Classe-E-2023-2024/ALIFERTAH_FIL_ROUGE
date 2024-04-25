@@ -5,9 +5,12 @@ import 'react-toastify/dist/ReactToastify.css';
 import { toast, ToastContainer } from 'react-toastify';
 import Sidebar from '@/components/layout/sideBar';
 import Primary from '@/components/buttons/primary';
+import Link from 'next/link';
 
-const tableHead = ["Username", "Email", "Role", "action"];
+
+const tableHead = ["Departure", "Arrival", "Date", "action"];
 const bookingTableHead = ["booking", "owner", "status", "action"];
+
 
 const Modal = ({ tripId, setShowModal }) => {
   
@@ -70,7 +73,6 @@ const Modal = ({ tripId, setShowModal }) => {
     }
   };
 
-  
   return (
     <>
       <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
@@ -164,6 +166,15 @@ function UserDashboard() {
   const handleAccept = (bookingId, tripId, userId) =>{
     axios.post('http://127.0.0.1:8000/acceptBooking', {"bookingId" : bookingId, "userId" :{userId}, "tripId" : tripId})
   }
+
+  
+
+  const handleShowUser = (userId) => {
+    axios.get(`http://127.0.0.1:8000/user/${userId}`)
+    .then((response) => {
+      console.log(response)
+    })
+  }
   return (
     <div className='flex'>
 
@@ -205,7 +216,7 @@ function UserDashboard() {
                     color="blue-gray"
                     className="font-normal"
                   >
-                    {trip.owner}
+                    {trip.departure}
                   </Typography>
                 </td>
                 <td className={classes}>
@@ -214,7 +225,7 @@ function UserDashboard() {
                     color="blue-gray"
                     className="font-normal"
                   >
-                    {trip.owner}
+                    {trip.arrival}
                   </Typography>
                 </td>
                 <td className={classes}>
@@ -223,7 +234,7 @@ function UserDashboard() {
                     color="blue-gray"
                     className="font-normal"
                   >
-                    {trip.owner}
+                    {trip.date}
                   </Typography>
                 </td>
                 <td className={classes}>
@@ -246,7 +257,7 @@ function UserDashboard() {
 
       {/* THIS IS BOOKINGS TABLE */}
       <div className='flex flex-col w-full'>
-      <h1>TRIPS</h1>
+      <h1>Bookings</h1>
       <table className="w-full min-w-max table-auto text-left">
         <thead>
           <tr>
@@ -302,14 +313,31 @@ function UserDashboard() {
                   </Typography>
                 </td>
                 <td className={classes}>
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-medium bg-green-500 text-center py-2 rounded-lg text-white"
-                    onClick={() => handleAccept(trip.id)}
-                  >
-                    Accept
-                  </Typography>
+                  {
+                    trip.status === "pending" ?
+                     (
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="font-medium bg-green-500 text-center py-2 rounded-lg text-white"
+                      onClick={() => handleAccept(trip.id)}
+                    >
+                      Accept
+                    </Typography>
+
+                     ) : (
+                     <Link href={`/profiles/${trip.user_id}`}>
+                      <Typography
+                        variant="small"
+                        color="blue-gray"
+                        className="font-medium bg-blue-500 text-center py-2 rounded-lg text-white cursor-pointer"
+                        onClick={() => handleShowUser(trip.user_id)}
+                      >
+                        Show user
+                      </Typography>
+                     </Link>
+                    )
+                  }
                 </td>
               </tr>
             );
