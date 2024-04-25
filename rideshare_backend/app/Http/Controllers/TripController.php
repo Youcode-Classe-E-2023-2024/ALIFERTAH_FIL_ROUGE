@@ -128,4 +128,14 @@ class TripController extends Controller
     
         return response()->json(['response' => 'Booking request accepted successfully!']);
     }
+    
+    /**
+     * this function deletes a trip
+     */
+    public function deleteTrip($id){
+        $trip = Trip::find($id);
+        $trip->delete();
+        
+        return response()->json(['response' => 'Trip deleted successfully!']);
+    }
 }

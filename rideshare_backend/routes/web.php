@@ -3,6 +3,7 @@
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\TripController;
 use App\Http\Controllers\UserController;
+use App\Models\Trip;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -75,4 +76,6 @@ Route::get('/user/{id}', [UserController::class, "userInfo"])
 ->name("userInfo");
 // ->middleware('auth:sanctum');
 
+Route::delete('/deleteTrip/{id}', [TripController::class, "deleteTrip"])
+->name("deleteTrip");
 

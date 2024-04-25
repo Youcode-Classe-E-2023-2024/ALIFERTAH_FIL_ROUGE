@@ -54,7 +54,7 @@ function NewTrip() {
 
     axios.post('http://127.0.0.1:8000/newTrip', formDataWithOwner)
       .then(response => {
-        toast.success(response.success, {
+        toast.success("Trip created successfully!", {
           position: 'top-right',
           autoClose: 3000,
           hideProgressBar: false,
@@ -65,7 +65,7 @@ function NewTrip() {
         });
       })
       .catch(error => {
-        toast.error('New trip failed', {
+        toast.error("trip error!", {
           position: 'top-right',
           autoClose: 3000,
           hideProgressBar: false,

@@ -31,8 +31,9 @@ function AvailableTrips() {
 
     return (
         <main className='flex flex-wrap justify-center flex-col w-full items-center'>
+            <h1 className='text-center font-bold text-3xl mt-8'>Available Trips</h1>
             {!trips.length ? (
-                <div>Loading ...</div>
+                <div className='flex justify-center text-center h-[500px]'>Loading ...</div>
             ) : (
                 trips
                 .filter(val => val.owner !== loggedUsername())

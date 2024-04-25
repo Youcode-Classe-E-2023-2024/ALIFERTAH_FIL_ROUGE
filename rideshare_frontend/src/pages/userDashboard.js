@@ -175,6 +175,10 @@ function UserDashboard() {
       console.log(response)
     })
   }
+
+  const handleDeleteTrip = (tripId) => {
+    axios.delete(`http://127.0.0.1:8000/deleteTrip/${tripId}`)
+  } 
   return (
     <div className='flex'>
 
@@ -190,12 +194,12 @@ function UserDashboard() {
               
               <th
                 key={head}
-                className="border-b border-blue-gray-100 bg-blue-gray-50 p-4"
+                className="border-b border-blue-gray-100 bg-blue-gray-50 p-4 "
               >
                 <Typography
                   variant="small"
                   color="blue-gray"
-                  className="font-normal leading-none opacity-70"
+                  className="font-normal leading-none opacity-70 text-center"
                 >
                   {head}
                 </Typography>
@@ -210,7 +214,7 @@ function UserDashboard() {
 
             return (
               <tr key={index}>
-                <td className={classes}>
+                <td className={`text-center ${classes}`}>
                   <Typography
                     variant="small"
                     color="blue-gray"
@@ -219,7 +223,7 @@ function UserDashboard() {
                     {trip.departure}
                   </Typography>
                 </td>
-                <td className={classes}>
+                <td className={`text-center ${classes}`}>
                   <Typography
                     variant="small"
                     color="blue-gray"
@@ -228,7 +232,7 @@ function UserDashboard() {
                     {trip.arrival}
                   </Typography>
                 </td>
-                <td className={classes}>
+                <td className={`text-center ${classes}`}>
                   <Typography
                     variant="small"
                     color="blue-gray"
@@ -237,15 +241,23 @@ function UserDashboard() {
                     {trip.date}
                   </Typography>
                 </td>
-                <td className={classes}>
-                  <Typography
-                    variant="small"
-                    color="blue-gray"
-                    className="font-medium bg-green-500 text-center py-2 rounded-lg text-white"
-                    onClick={() => handleModalOpen(trip.id, trip.user_id, trip.trip_id)}
-                  >
-                    Edit
-                  </Typography>
+                <td className={`flex space-x-4 w-full justify-center ${classes}`}>
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="font-medium bg-[#346751] hover:bg-[#346711] cursor-pointer px-4 duration-200 text-center py-2 rounded-lg text-white"
+                      onClick={() => handleModalOpen(trip.id, trip.user_id, trip.trip_id)}
+                    >
+                      Edit
+                    </Typography>
+                    <Typography
+                      variant="small"
+                      color="blue-gray"
+                      className="font-medium px-4 bg-red-500 hover:bg-red-700 cursor-pointer duration-200 text-center py-2 rounded-lg text-white"
+                      onClick={() => handleDeleteTrip(trip.id)}
+                    >
+                      Delete
+                    </Typography>
                 </td>
               </tr>
             );
@@ -319,7 +331,7 @@ function UserDashboard() {
                     <Typography
                       variant="small"
                       color="blue-gray"
-                      className="font-medium bg-green-500 text-center py-2 rounded-lg text-white"
+                      className="font-medium bg-[#346751] hover:bg-[#346711] cursor-pointer duration-200 text-center py-2 rounded-lg text-white"
                       onClick={() => handleAccept(trip.id)}
                     >
                       Accept
