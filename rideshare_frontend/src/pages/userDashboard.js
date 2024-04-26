@@ -199,7 +199,7 @@ function UserDashboard() {
       , {name:"new trip", link:"/newTrip"}]}/>
       <Card className="flex flex-col items-start h-full w-full overflow-scroll ">
       <div className='flex flex-col w-full'>
-      <h1>TRIPS</h1>
+      <h1 className='text-3xl font-bold my-8'>TRIPS</h1>
       <table className="w-full min-w-max table-auto text-left">
         <thead>
           <tr>
@@ -284,7 +284,7 @@ function UserDashboard() {
 
       {/* THIS IS BOOKINGS TABLE */}
       <div className='flex flex-col w-full'>
-      <h1>Bookings</h1>
+      <h1 className='text-3xl font-bold my-8'>Bookings</h1>
       <table className="w-full min-w-max table-auto text-left">
         <thead>
           <tr>
@@ -327,7 +327,7 @@ function UserDashboard() {
                     color="blue-gray"
                     className="font-normal"
                   >
-                    {trip.id}
+                    {trip.trip_owner}
                   </Typography>
                 </td>
                 <td className={classes}>
@@ -336,7 +336,7 @@ function UserDashboard() {
                     color="blue-gray"
                     className="font-normal"
                   >
-                    {trip.id}
+                    {trip.status}
                   </Typography>
                 </td>
                 <td className={classes}>

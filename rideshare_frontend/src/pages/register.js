@@ -7,59 +7,54 @@ import { useRouter } from 'next/router';
 
 function Login() {
   const inputs = ["username", "email", "phone","password","confirmPassword", "birthday"];
-  const [username, setUsername] = useState("");  
-  const [email, setEmail] = useState("");  
-  const [phone, setPhone] = useState("");  
-  const [password, setPassword] = useState("");  
-  const [birthday, setBirthday] = useState("");
-  const formData = {
-      username, email, phone, password, birthday
-    };
-    const router = useRouter();
-    /**
-     * handle form submit to send register 
-     * @param {*} e 
-     */
-    const handleSubmit = async (e) => {
-      e.preventDefault();
-      try {
-        const response = await axios.post('http://127.0.0.1:8000/register', formData, {
-          headers: {
-            'Content-Type': 'application/json',
-          },
+  const [formData, setFormData] = useState({
+    username: "",
+    email: "",
+    phone: "",
+    password: "",
+    confirmPassword: "",
+    birthday: ""
+  });
+  const [errors, setErrors] = useState({});
+  const router = useRouter();
+
+  /**
+   * handle form submit to send register 
+   * @param {*} e 
+   */
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post('http://127.0.0.1:8000/register', formData, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.status === 200) {
+        setTimeout(() => {
+          router.replace('/login');
+        }, 2000);
+        toast.success('Registration successful', {
+          position: 'top-right',
+          autoClose: 3000, 
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
         });
-  
-        if (response.status === 200) {
-          setTimeout(() => {
-            router.replace('/login');
-          }, 2000);
-          toast.success('Registration successful', {
-            position: 'top-right',
-            autoClose: 3000, 
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-          });
-          setUsername("");
-          setEmail("");
-          setPhone("");
-          setPassword("");
-          setBirthday("");
-        } else {
+        setFormData({
+          username: "",
+          email: "",
+          phone: "",
+          password: "",
+          confirmPassword: "",
+          birthday: ""
+        });
+        setErrors({});
+      } else {
         toast.error('Registration failed: ' + response.statusText, {
-        position: 'top-right',
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        });
-      }
-      } catch (error) {
-        toast.error('Error registering user: ' + error.message, {
           position: 'top-right',
           autoClose: 3000,
           hideProgressBar: false,
@@ -69,31 +64,58 @@ function Login() {
           progress: undefined,
         });
       }
-    };
+    } catch (error) {
+      toast.error('Error registering user: ' + error.message, {
+        position: 'top-right',
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
+    }
+  };
 
+  /**
+   * Handle input change and validate using regex
+   * @param {*} e 
+   */
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    let error = {};
 
-    const handleInputChange = (e) => {
-      const { name, value } = e.target;
-      switch (name) {
-        case "username":
-          setUsername(value);
-          break;
-        case "email":
-          setEmail(value);
-          break;
-        case "phone":
-          setPhone(value);
-          break;
-        case "password":
-          setPassword(value);
-          break;
-        case "birthday":
-          setBirthday(value);
-          break;
-        default:
-          break;
-      }
-    };
+    switch (name) {
+      case "username":
+        setFormData({ ...formData, [name]: value });
+        error[name] = /^[a-zA-Z0-9_]+$/.test(value) ? '' : 'Username must contain only letters, numbers, and underscores';
+        break;
+      case "email":
+        setFormData({ ...formData, [name]: value });
+        error[name] = /^\S+@\S+\.\S+$/.test(value) ? '' : 'Invalid email address';
+        break;
+      case "phone":
+        setFormData({ ...formData, [name]: value });
+        error[name] = /^[0-9]{10}$/.test(value) ? '' : 'Phone number must be 10 digits';
+        break;
+      case "password":
+        setFormData({ ...formData, [name]: value });
+        error[name] = /^(?=.*[a-z])/.test(value) ? '' : 'Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one number';
+        break;
+      case "confirmPassword":
+        setFormData({ ...formData, [name]: value });
+        error[name] = value === formData.password ? '' : 'Passwords do not match';
+        break;
+      case "birthday":
+        setFormData({ ...formData, [name]: value });
+        error[name] = /^(19|20)\d{2}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/.test(value) ? '' : 'Invalid date format (YYYY-MM-DD)';
+        break;
+      default:
+        break;
+    }
+
+    setErrors({ ...errors, ...error });
+  };
 
   return (
     <main className='bg-gradient-to-r from-black to-gray-800 h-screen'>
@@ -104,15 +126,17 @@ function Login() {
               <div key={key}>
                 <label htmlFor={value} className="block text-xs font-semibold text-gray-600 uppercase mt-2">{value}</label>
                 <input  id={value} 
-                type={value === "password" ? ("password") : (value === "birthday" ? ("date") : "text")} 
-                name={value} placeholder={value}
-                value={formData[value]}
-                  className="block w-full py-3 px-1 mt-2 
-                            text-gray-800 appearance-none 
-                            border-b-2 border-gray-100
-                            focus:text-gray-500 focus:outline-none focus:border-gray-200"
+                  type={value === "password" || value === "confirmPassword" ? ("password") : (value === "birthday" ? ("date") : "text")} 
+                  name={value} placeholder={value}
+                  value={formData[value]}
+                  className={`block w-full py-3 px-1 mt-2 
+                              text-gray-800 appearance-none 
+                              border-b-2 border-gray-100
+                              focus:text-gray-500 focus:outline-none focus:border-gray-200
+                              ${errors[value] ? 'border-red-500' : ''}`}
                   onChange={handleInputChange}
                   required />
+                  {/* {errors[value] && <p className="text-red-500 text-xs">{errors[value]}</p>} */}
               </div>
             );
           })}

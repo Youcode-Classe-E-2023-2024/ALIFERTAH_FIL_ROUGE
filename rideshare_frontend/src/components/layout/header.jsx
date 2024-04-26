@@ -46,7 +46,9 @@ function Header() {
   return (
     <div className="bg-[#161616] text-[#F8F8F8] h-16 flex justify-between items-center px-4 sm:px-6 lg:px-8">
       <div>
-        <Image src="/imgs/logo.png" width={60} height={100} />
+        <Link href="/">
+          <Image src="/imgs/logo.png" width={60} height={100} />
+        </Link>
       </div>
       <nav className="flex items-center">
         {isLoggedIn ? (
@@ -74,7 +76,7 @@ function Header() {
             </div>
           </>
         ) : (
-          <a href="/login" className="flex items-center bg-[#2D2D2D] rounded px-4 py-2 ml-4 cursor-pointer">Login</a>
+          <Link href="/login" className="flex items-center bg-[#2D2D2D] rounded px-4 py-2 ml-4 cursor-pointer">Login</Link>
         )}
       </nav>
     </div>
